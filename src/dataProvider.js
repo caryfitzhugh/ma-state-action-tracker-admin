@@ -14,6 +14,8 @@ import {
 
 export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
     /**
+     * This data provider is responsible to translating the actions emitted by ra-core and performing HTTP requests that make sense to the swagger API
+     * 
      * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
      * @param {String} resource Name of the resource to fetch, e.g. 'action-track'
      * @param {Object} params The data request params, depending on the type
@@ -27,20 +29,21 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 const { page, perPage: per_page } = params.pagination;
                 const { field: sort_by_field, order: sort_by_order } = params.sort;
                 const query = {
-                    sort: JSON.stringify([sort_by_field, sort_by_order]),
-                    range: JSON.stringify([
+                    page: JSON.stringify(page),
+                    per_page: JSON.stringify(per_page),
+                    sort_by_field: sort_by_field,
+                    sort_by_order: sort_by_order,
+                    //filter: JSON.stringify(params.filter)
+                    range: [
                         (page - 1) * per_page,
                         page * per_page - 1,
-                    ]),
-                    filter: JSON.stringify(params.filter),
+                    ],
                 };
-                url = `${apiUrl}/${resource}?${stringify(query)}`;
+                url = `${apiUrl}/${resource}/?${stringify(query)}`;
                 break;
             }
             case GET_ONE:
-                const ids = [];
-                ids.push(params.id);
-                url = `${apiUrl}/${resource}/${ids}`;
+                url = `${apiUrl}/${resource}/${stringify(params.id)}`;
                 break;
             case GET_MANY: {
                 const query = {
@@ -50,13 +53,14 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 break;
             }
             case GET_MANY_REFERENCE: {
-                const { page, perPage } = params.pagination;
-                const { field, order } = params.sort;
+                const { page, perPage: per_page } = params.pagination;
+                const { field: sort_by_field, order: sort_by_order } = params.sort;
+                //this query needs to be updated.  not sure where this is used quite yet
                 const query = {
-                    sort: JSON.stringify([field, order]),
+                    sort: JSON.stringify([sort_by_field, sort_by_order]),
                     range: JSON.stringify([
-                        (page - 1) * perPage,
-                        page * perPage - 1,
+                        (page - 1) * per_page,
+                        page * per_page - 1,
                     ]),
                     filter: JSON.stringify({
                         ...params.filter,
@@ -71,6 +75,11 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 options.method = 'PUT';
                 options.body = JSON.stringify(params.data);
                 break;
+            case UPDATE_MANY:
+                url = `${apiUrl}/${resource}/${stringify(params.id)}`;
+                options.method = 'PUT';
+                options.body = JSON.stringify(params.data);
+                break;
             case CREATE:
                 url = `${apiUrl}/${resource}`;
                 options.method = 'POST';
@@ -78,6 +87,10 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 break;
             case DELETE:
                 url = `${apiUrl}/${resource}/${params.id}`;
+                options.method = 'DELETE';
+                break;
+            case DELETE_MANY:
+                url = `${apiUrl}/${resource}/${stringify(params.id)}`;
                 options.method = 'DELETE';
                 break;
             default:
@@ -96,7 +109,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
     const convertHTTPResponse = (response, type, resource, params) => {
         const { headers, json } = response;
         switch (type) {
-            case GET_LIST:
+            //unsure yet if this is needed
             case GET_MANY_REFERENCE:
                 if (!headers.has('content-range')) {
                     throw new Error(
@@ -130,32 +143,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
      * @returns {Promise} the Promise for a data response
      */
     return (type, resource, params) => {
-        // simple-rest doesn't handle filters on UPDATE route, so we fallback to calling UPDATE n times instead
-        if (type === UPDATE_MANY) {
-            return Promise.all(
-                params.ids.map(id =>
-                    httpClient(`${apiUrl}/${resource}/${id}`, {
-                        method: 'PUT',
-                        body: JSON.stringify(params.data),
-                    })
-                )
-            ).then(responses => ({
-                data: responses.map(response => response.json),
-            }));
-        }
-        // simple-rest doesn't handle filters on DELETE route, so we fallback to calling DELETE n times instead
-        if (type === DELETE_MANY) {
-            return Promise.all(
-                params.ids.map(id =>
-                    httpClient(`${apiUrl}/${resource}/${id}`, {
-                        method: 'DELETE',
-                    })
-                )
-            ).then(responses => ({
-                data: responses.map(response => response.json),
-            }));
-        }
-
         const { url, options } = convertDataRequestToHTTP(
             type,
             resource,
