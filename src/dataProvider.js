@@ -23,7 +23,9 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
      */
     const convertDataRequestToHTTP = (type, resource, params) => {
         let url = '';
-        const options = {};
+        const options = {
+            withCredentials: 'true'
+        };
         switch (type) {
             case GET_LIST: {
                 const { page, perPage: per_page } = params.pagination;
@@ -34,10 +36,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                     sort_by_field: sort_by_field,
                     sort_by_order: sort_by_order,
                     //filter: JSON.stringify(params.filter)
-                    range: [
-                        (page - 1) * per_page,
-                        page * per_page - 1,
-                    ],
                 };
                 url = `${apiUrl}/${resource}/?${stringify(query)}`;
                 break;
