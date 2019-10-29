@@ -24,7 +24,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
     const convertDataRequestToHTTP = (type, resource, params) => {
         let url = '';
         const options = {
-            withCredentials: 'true'
+            headers: new Headers({ withCredentials: 'true' })
         };
         switch (type) {
             case GET_LIST: {
