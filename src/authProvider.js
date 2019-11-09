@@ -5,7 +5,7 @@ export default (type, params) => {
     //on 200 response, user will be authenticated
     if (type === AUTH_LOGIN) {
         const { username, password } = params;
-        const request = new Request(`${endpoint}/sign_in?username=${username}&password=${password}`, 
+        const request = new Request(`${endpoint}/sign_in?username=${username}&password=${password}`,
         {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json'}),
@@ -21,7 +21,7 @@ export default (type, params) => {
     }
     // called when the user clicks on the logout button
     if (type === AUTH_LOGOUT) {
-        const request = new Request(`${endpoint}/sign_out`, 
+        const request = new Request(`${endpoint}/sign_out`,
         {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json'}),

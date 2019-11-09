@@ -15,7 +15,7 @@ import {
 export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
     /**
      * This data provider is responsible to translating the actions emitted by ra-core and performing HTTP requests that make sense to the swagger API
-     * 
+     *
      * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
      * @param {String} resource Name of the resource to fetch, e.g. 'action-track'
      * @param {Object} params The data request params, depending on the type
@@ -23,8 +23,10 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
      */
     const convertDataRequestToHTTP = (type, resource, params) => {
         let url = '';
+        let data = {};
         const options = {
-            headers: new Headers({ withCredentials: 'true' })
+            headers: new Headers({ withCredentials: 'true' }),
+            credentials: "include",
         };
         switch (type) {
             case GET_LIST: {
@@ -35,19 +37,20 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                     per_page: JSON.stringify(per_page),
                     sort_by_field: sort_by_field,
                     sort_by_order: sort_by_order,
-                    //filter: JSON.stringify(params.filter)
+                    filter: JSON.stringify(params.filter)
                 };
                 url = `${apiUrl}/${resource}/?${stringify(query)}`;
                 break;
             }
             case GET_ONE:
-                url = `${apiUrl}/${resource}/${stringify(params.id)}`;
+                url = `${apiUrl}/${resource}/${params.id}`;
                 break;
             case GET_MANY: {
-                const query = {
-                    filter: JSON.stringify({ id: params.ids }),
-                };
-                url = `${apiUrl}/${resource}?${stringify(query)}`;
+                let ids = [];
+                for (const id of params.ids) {
+                  ids.push("ids=" + id);
+                }
+                url = `${apiUrl}/${resource}/get-many?${ids.join("&")}`;
                 break;
             }
             case GET_MANY_REFERENCE: {
@@ -71,24 +74,24 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
             case UPDATE:
                 url = `${apiUrl}/${resource}/${params.id}`;
                 options.method = 'PUT';
-                options.body = JSON.stringify(params.data);
+                options.body = JSON.stringify({data: params.data});
                 break;
             case UPDATE_MANY:
-                url = `${apiUrl}/${resource}/${stringify(params.id)}`;
+                url = `${apiUrl}/${resource}`;
                 options.method = 'PUT';
-                options.body = JSON.stringify(params.data);
+                options.body = JSON.stringify(params);
                 break;
             case CREATE:
                 url = `${apiUrl}/${resource}`;
                 options.method = 'POST';
-                options.body = JSON.stringify(params.data);
+                options.body = JSON.stringify(params);
                 break;
             case DELETE:
                 url = `${apiUrl}/${resource}/${params.id}`;
                 options.method = 'DELETE';
                 break;
             case DELETE_MANY:
-                url = `${apiUrl}/${resource}/${stringify(params.id)}`;
+                url = `${apiUrl}/${resource}?${stringify(params)}`;
                 options.method = 'DELETE';
                 break;
             default:
@@ -107,6 +110,14 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
     const convertHTTPResponse = (response, type, resource, params) => {
         const { headers, json } = response;
         switch (type) {
+            case GET_LIST:
+              return json;
+            case GET_ONE:
+              return {data: json.data[0]};
+
+            case GET_MANY:
+              return json;
+
             //unsure yet if this is needed
             case GET_MANY_REFERENCE:
                 if (!headers.has('content-range')) {
@@ -125,9 +136,16 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                     ),
                 };
             case CREATE:
-                return { data: { ...params.data, id: json.id } };
+                return json;
+            case UPDATE:
+                return {data: json.data[0]};
+            case UPDATE_MANY:
+                return json;
+            case DELETE: {
+                return { data: []};
+            }
             case DELETE_MANY: {
-                return { data: json || [] };
+                return { data: []};
             }
             default:
                 return { data: json };
