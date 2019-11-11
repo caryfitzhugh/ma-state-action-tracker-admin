@@ -46,11 +46,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 url = `${apiUrl}/${resource}/${params.id}`;
                 break;
             case GET_MANY: {
-                let ids = [];
-                for (const id of params.ids) {
-                  ids.push("ids=" + id);
-                }
-                url = `${apiUrl}/${resource}/get-many?${ids.join("&")}`;
+                url = `${apiUrl}/${resource}/get-many/${params.ids.join(",")}`;
                 break;
             }
             case GET_MANY_REFERENCE: {
@@ -82,6 +78,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 options.body = JSON.stringify(params);
                 break;
             case CREATE:
+debugger;
                 url = `${apiUrl}/${resource}`;
                 options.method = 'POST';
                 options.body = JSON.stringify(params);
@@ -91,7 +88,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 options.method = 'DELETE';
                 break;
             case DELETE_MANY:
-                url = `${apiUrl}/${resource}?${stringify(params)}`;
+                url = `${apiUrl}/${resource}/delete-many/${params.ids.join(",")}`;
                 options.method = 'DELETE';
                 break;
             default:
@@ -136,6 +133,7 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                     ),
                 };
             case CREATE:
+            debugger;
                 return json;
             case UPDATE:
                 return {data: json.data[0]};

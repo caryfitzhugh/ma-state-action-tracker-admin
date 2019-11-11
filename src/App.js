@@ -1,6 +1,6 @@
 import React from 'react';
 import { Admin, Resource, ListGuesser, EditGuesser , CreateGuesser} from 'react-admin';
-import { ActionTrackList, ActionTrackEdit, ActionTrackCreate } from './forms/action_track.js';
+import { ActionTrackList, ActionTrackShow, ActionTrackEdit, ActionTrackCreate } from './forms/action_track.js';
 import { ActionStatusList, ActionStatusEdit, ActionStatusCreate } from './forms/action_status.js';
 import { ActionTypeList, ActionTypeEdit, ActionTypeCreate } from './forms/action_type.js';
 import { AgencyPriorityList, AgencyPriorityEdit, AgencyPriorityCreate } from './forms/agency_priority.js';
@@ -18,7 +18,9 @@ import endpoint from './endpoint';
 
 const App = () =>
     <Admin dashboard={Dashboard} dataProvider={dataProvider(endpoint)} authProvider={authProvider}>
-        <Resource options={{label: "Action Track"}} name='action-tracks' list={ActionTrackList} edit={ActionTrackEdit} create={ActionTrackCreate} />
+        <Resource options={{label: "Action Track"}} name='action-tracks'
+                  show={ActionTrackShow}
+                  list={ActionTrackList} edit={ActionTrackEdit} create={ActionTrackCreate} />
         <hr/>
 
         <Resource options={{label: "Action Status"}} name="action-statuses" list={ActionStatusList} edit={ActionStatusEdit} create={ActionStatusCreate}/>
