@@ -10,8 +10,10 @@ export const ActionTrackCreate = (props) => (
   <SimpleForm>
     <TextInput label="Title" source='title' required={true}/>
     <LongTextInput label="Description" source='description' />
-    <DateInput label="Starts On" source='start_on' />
-    <DateInput label="Ends On" source='end_on' />
+    <ReferenceInput label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
+      <SelectInput optionText="timeframe"/>
+    </ReferenceInput>
+
 
     <ReferenceInput label="Action Status"   source="action_status_id" reference="action-statuses">
       <SelectInput optionText="status"/>
@@ -60,8 +62,10 @@ export const ActionTrackEdit = (props) => (
       <SimpleForm>
         <TextInput label="Title" source='title' required={true}/>
         <LongTextInput label="Description" source='description' />
-        <DateInput label="Starts On" source='start_on' />
-        <DateInput label="Ends On" source='end_on' />
+
+        <ReferenceInput label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
+          <SelectInput optionText="timeframe"/>
+        </ReferenceInput>
 
         <ReferenceInput label="Action Status"   source="action_status_id" reference="action-statuses">
           <SelectInput optionText="status"/>
@@ -110,8 +114,14 @@ export const ActionTrackList = (props) => (
     <List {...props}>
       <Datagrid rowClick={(id, bp, rec) => 'show'}>
         <TextField label="Title" source="title" />
-        <DateField label="Starts" source="start_on" />
-        <DateField label="Ends" source="end_on" />
+        <ReferenceField allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
+          <TextField source="timeframe"/>
+        </ReferenceField>
+        <ReferenceArrayField label="Action Types"   source="action_type_ids" reference="action-types">
+          <SingleFieldList>
+            <ChipField source="type"/>
+          </SingleFieldList>
+        </ReferenceArrayField>
       </Datagrid>
     </List>
 );
@@ -146,10 +156,15 @@ export const ActionTrackShow = (props) => (
     <SimpleShowLayout>
       <TextField label="Title" source='title'/>
       <TextField label="Description" source='description' />
-      <DateField label="Starts On" source='start_on' />
-      <DateField label="Ends On" source='end_on' />
+
+      <ReferenceField allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
+        <TextField source="timeframe"/>
+      </ReferenceField>
+
       <hr/>
+
       <AddNewProgressNoteButton record={props.data} />
+
       <ReferenceArrayField label='Progress Notes' source="progress_note_ids" reference="progress-notes">
         <Datagrid>
           <TextField source="note" />

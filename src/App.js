@@ -4,6 +4,7 @@ import { Admin, Resource, ListGuesser, EditGuesser , CreateGuesser} from 'react-
 import { ActionTrackList, ActionTrackShow, ActionTrackEdit, ActionTrackCreate } from './forms/action_track.js';
 import { ActionStatusList, ActionStatusEdit, ActionStatusCreate } from './forms/action_status.js';
 import { ActionTypeList, ActionTypeEdit, ActionTypeCreate } from './forms/action_type.js';
+import { CompletionTimeframeList, CompletionTimeframeEdit, CompletionTimeframeCreate } from './forms/completion_timeframe.js';
 import { AgencyPriorityList, AgencyPriorityEdit, AgencyPriorityCreate } from './forms/agency_priority.js';
 import { ExecOfficeList, ExecOfficeEdit, ExecOfficeCreate } from './forms/exec_office.js';
 import { FundingSourceList, FundingSourceEdit, FundingSourceCreate } from './forms/funding_source.js';
@@ -36,6 +37,7 @@ const App = () =>
         <Resource options={{label: "Action Status"}} name="action-statuses" list={ActionStatusList} edit={ActionStatusEdit} create={ActionStatusCreate}/>
         <Resource options={{label: "Action Type"}} name="action-types" list={ActionTypeList} edit={ActionTypeEdit} create={ActionTypeCreate} />
         <Resource options={{label: "Agency Priority"}} name="agency-priorities" list={AgencyPriorityList} edit={AgencyPriorityEdit} create={AgencyPriorityCreate} />
+        <Resource options={{label: "Completion Timeframe"}} name="completion-timeframes" list={CompletionTimeframeList} edit={CompletionTimeframeEdit} create={CompletionTimeframeCreate}  />
         <Resource options={{label: "Exec Office"}} name="exec-offices" list={ExecOfficeList} edit={ExecOfficeEdit} create={ExecOfficeCreate}  />
         <Resource options={{label: "Possible Funding Source"}} name="funding-sources" list={FundingSourceList} edit={FundingSourceEdit} create={FundingSourceCreate} />
         <Resource options={{label: "Global Action"}} name="global-actions" list={GlobalActionList} edit={GlobalActionEdit} create={GlobalActionCreate} />
