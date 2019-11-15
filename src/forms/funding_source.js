@@ -6,6 +6,7 @@ export const FundingSourceCreate = (props) => (
         <SimpleForm>
             <TextInput label='Funding Source Name' source="name" />
             <TextInput label="URL Address" type='url' source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -15,6 +16,7 @@ export const FundingSourceEdit = (props) => (
         <SimpleForm>
             <TextInput label="Funding Source Name" source='name'/>
             <TextInput label="URL Address" source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );

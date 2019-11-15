@@ -7,6 +7,7 @@ export const ActionTypeCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput label="Action Type" source="type" />
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -15,6 +16,7 @@ export const ActionTypeEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput label="Action Type" source="type"/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );

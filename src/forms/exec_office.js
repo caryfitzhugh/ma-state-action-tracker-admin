@@ -6,6 +6,7 @@ export const ExecOfficeCreate = (props) => (
         <SimpleForm>
             <TextInput label='Office Name' source="name" />
             <TextInput label="URL Address" type='url' source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -15,6 +16,7 @@ export const ExecOfficeEdit = (props) => (
         <SimpleForm>
             <TextInput label="Office Name" source='name'/>
             <TextInput label="URL Address" source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );

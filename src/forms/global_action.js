@@ -6,6 +6,7 @@ export const GlobalActionCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput label='Global Action Name' source="action" />
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -14,6 +15,7 @@ export const GlobalActionEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput label="Global Action Name" source='action'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );

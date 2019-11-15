@@ -6,6 +6,7 @@ export const LeadAgencyCreate = (props) => (
         <SimpleForm>
             <TextInput label='Lead Agency Name' source="name" />
             <TextInput label="URL Address" type='url' source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -16,6 +17,7 @@ export const LeadAgencyEdit = (props) => (
             <DisabledInput label="Id" source="id" />
             <TextInput label="Lead Agency Name" source='name'/>
             <TextInput label="URL Address" source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );

@@ -6,6 +6,7 @@ export const PartnerCreate = (props) => (
         <SimpleForm>
             <TextInput label='Partner Name' source="name" />
             <TextInput label="URL Address" type='url' source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -13,9 +14,9 @@ export const PartnerCreate = (props) => (
 export const PartnerEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
-            <DisabledInput label="Id" source="id" />
             <TextInput label="Partner Name" source='name'/>
             <TextInput label="URL Address" source='href'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );

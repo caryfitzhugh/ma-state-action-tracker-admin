@@ -5,6 +5,7 @@ export const AgencyPriorityCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput label='Agency Priority' source="name" />
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -13,6 +14,7 @@ export const AgencyPriorityEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput label="Agency Priority" source='name'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );

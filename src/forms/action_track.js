@@ -1,59 +1,9 @@
 import React from 'react';
 import CardActions from '@material-ui/core/CardActions';
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 
-import { ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
+import { DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
 
-
-const Form = (props) => (
-  <SimpleForm>
-    <TextInput label="Title" source='title'/>
-    <LongTextInput label="Description" source='description' />
-    <DateInput label="Starts On" source='start_on' />
-    <DateInput label="Ends On" source='end_on' />
-
-    <ReferenceInput label="Action Status"   source="action_status_id" reference="action-statuses">
-      <SelectInput optionText="status"/>
-    </ReferenceInput>
-
-    <ReferenceInput label="Action Type"   source="action_type_id" reference="action-types">
-      <SelectInput optionText="type"/>
-    </ReferenceInput>
-
-    <ReferenceInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
-      <SelectInput optionText="name"/>
-    </ReferenceInput>
-
-    <ReferenceInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
-      <SelectInput optionText="name"/>
-    </ReferenceInput>
-
-    <ReferenceInput label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
-      <SelectInput optionText="name"/>
-    </ReferenceInput>
-
-    <ReferenceInput label="Global Action" source="global_action_id" reference="global-actions">
-      <SelectInput optionText="action"/>
-    </ReferenceInput>
-
-    <ReferenceArrayInput label='Partners' source="partner_ids" reference="partners">
-      <SelectArrayInput optionText="name" />
-    </ReferenceArrayInput>
-
-    <ReferenceArrayInput label='Funding Sources' source="funding_source_ids" reference="funding-sources">
-      <SelectArrayInput optionText="name" />
-    </ReferenceArrayInput>
-
-    <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
-      <SelectArrayInput optionText="name" />
-    </ReferenceArrayInput>
-    <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
-      <SelectArrayInput optionText="name" />
-    </ReferenceArrayInput>
-  </SimpleForm>
-);
-/*
-  has n, :progress_notes, ProgressNote
-*/
 
 export const ActionTrackCreate = (props) => (
 <Create {...props}>
@@ -67,9 +17,9 @@ export const ActionTrackCreate = (props) => (
       <SelectInput optionText="status"/>
     </ReferenceInput>
 
-    <ReferenceInput label="Action Type"   source="action_type_id" reference="action-types">
-      <SelectInput optionText="type"/>
-    </ReferenceInput>
+    <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
+      <SelectArrayInput optionText="type" />
+    </ReferenceArrayInput>
 
     <ReferenceInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
       <SelectInput optionText="name"/>
@@ -87,11 +37,11 @@ export const ActionTrackCreate = (props) => (
       <SelectInput optionText="action"/>
     </ReferenceInput>
 
-    <ReferenceArrayInput label='Partners' source="partner_ids" reference="partners">
+    <ReferenceArrayInput label='Possible Partners' source="partner_ids" reference="partners">
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
 
-    <ReferenceArrayInput label='Funding Sources' source="funding_source_ids" reference="funding-sources">
+    <ReferenceArrayInput label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
 
@@ -117,9 +67,10 @@ export const ActionTrackEdit = (props) => (
           <SelectInput optionText="status"/>
         </ReferenceInput>
 
-        <ReferenceInput label="Action Type"   source="action_type_id" reference="action-types">
-          <SelectInput optionText="type"/>
-        </ReferenceInput>
+        <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
+          <SelectArrayInput optionText="type" />
+        </ReferenceArrayInput>
+
 
         <ReferenceInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
           <SelectInput optionText="name"/>
@@ -170,12 +121,26 @@ const cardActionStyle = {
     display: 'inline-block',
     float: 'right',
 };
+const AddNewProgressNoteButton = ({ record }) => (
+  <Button
+    component={Link}
+    to={{
+      pathname: "/progress-notes/create",
+      search: `?action_track_id=22`,
+     // ${record.id}`,
+    }}
+    label="Add a progress note"
+  >
+    <ChatBubbleIcon />
+  </Button>
+);
 const ShowActions = ({ basePath, data, resource }) => (
   <CardActions style={cardActionStyle}>
     <EditButton basePath={basePath} record={data} />
+    <DeleteButton basePath={basePath} record={data} resource={resource} />
+    <AddNewProgressNoteButton record={data} />
   </CardActions>
 );
-
 export const ActionTrackShow = (props) => (
   <Show actions={<ShowActions/>} {...props}>
     <SimpleShowLayout>
@@ -183,15 +148,25 @@ export const ActionTrackShow = (props) => (
       <TextField label="Description" source='description' />
       <DateField label="Starts On" source='start_on' />
       <DateField label="Ends On" source='end_on' />
-
+      <hr/>
+      <AddNewProgressNoteButton record={props.data} />
+      <ReferenceArrayField label='Progress Notes' source="progress_note_ids" reference="progress-notes">
+        <Datagrid>
+          <TextField source="note" />
+          <DateField source="created_on"/>
+          <DeleteButton undoable={false} resource="progress-notes" basePath="/progress-notes" redirect={false} />
+        </Datagrid>
+      </ReferenceArrayField>
 
       <ReferenceField allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
         <TextField source="status"/>
       </ReferenceField>
 
-      <ReferenceField allowEmpty={true} label="Action Type"   source="action_type_id" reference="action-types">
-        <TextField source="type"/>
-      </ReferenceField>
+      <ReferenceArrayField allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
+        <SingleFieldList>
+          <ChipField source="type"/>
+        </SingleFieldList>
+      </ReferenceArrayField>
 
       <ReferenceField allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
         <TextField source="name"/>

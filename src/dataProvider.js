@@ -78,7 +78,6 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 options.body = JSON.stringify(params);
                 break;
             case CREATE:
-debugger;
                 url = `${apiUrl}/${resource}`;
                 options.method = 'POST';
                 options.body = JSON.stringify(params);
@@ -133,7 +132,6 @@ debugger;
                     ),
                 };
             case CREATE:
-            debugger;
                 return json;
             case UPDATE:
                 return {data: json.data[0]};

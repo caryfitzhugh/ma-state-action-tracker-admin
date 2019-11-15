@@ -5,6 +5,7 @@ export const PrimaryClimateInteractionCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput label='Climate Interaction Name' source="name" />
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -13,6 +14,7 @@ export const PrimaryClimateInteractionEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput label="Climate Interaction Name" source='name'/>
+            <LongTextInput label="Tooltip Description" source="description" />
         </SimpleForm>
     </Edit>
 );
