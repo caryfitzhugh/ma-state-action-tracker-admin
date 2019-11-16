@@ -2,8 +2,9 @@ import React from 'react';
 import CardActions from '@material-ui/core/CardActions';
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { withStyles } from "@material-ui/core/styles";
+import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
-import { CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
+import { downloadCSV, ExportButton, CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
 
 
 export const ActionTrackCreate = (props) => (
@@ -140,6 +141,64 @@ const TrackFilter = withStyles(track_filter_styles)(({classes, ...props}) => (
       </ReferenceArrayInput>
     </Filter>
 ));
+const action_track_exporter = (records, fetchRelatedRecords) => {
+    fetchRelatedRecords(records, 'action_type_ids', 'action-types').then(ats => {
+     fetchRelatedRecords(records, 'action_status_id', 'action-statuses').then(ass => {
+      fetchRelatedRecords(records, 'completion_timeframe_id', 'completion-timeframes').then(cts => {
+       fetchRelatedRecords(records, 'exec_office_id', 'exec-offices').then(eos => {
+        fetchRelatedRecords(records, 'lead_agency_id', 'lead-agencies').then(las => {
+         fetchRelatedRecords(records, 'agency_priority_id', 'agency-priorities').then(aps => {
+          fetchRelatedRecords(records, 'global_action_id', 'global-actions').then(gas => {
+           fetchRelatedRecords(records, 'partner_ids', 'partners').then(ps => {
+            fetchRelatedRecords(records, 'funding_source_ids', 'funding-sources').then(fss => {
+             fetchRelatedRecords(records, 'primary_climate_interaction_ids', 'primary-climate-interactions').then(pcis => {
+              fetchRelatedRecords(records, 'progress_note_ids', 'progress-notes').then(pns => {
+               fetchRelatedRecords(records, 'shmcap_goal_ids', 'shmcap-goals').then(scgs => {
+                  const data = records.map(record => ({
+                      title: record.title,
+                      description: record.description,
+                      action_types: record.action_type_ids.map((ati) => {
+                        return ats[ati].type;
+                      }).join('\n'),
+                      action_status: record.action_status_id ? ass[record.action_status_id].status : "",
+                      completion_timeframe: record.completion_timeframe_id ? cts[record.completion_timeframe_id].timeframe : "",
+                      exec_office: record.exec_office_id ? eos[record.exec_office_id].name : "",
+                      lead_agency: record.lead_agency_id ? las[record.lead_agency_id].name : "",
+                      agency_priority: record.agency_priority_id ? aps[record.agency_priority_id].priority : "",
+                      global_action: record.global_action_id ? gas[record.global_action_id].action : "",
+                      partners: record.partner_ids.map((pi) => {
+                        return ps[pi].name;
+                      }).join('\n'),
+                      possible_funding_sources: record.funding_source_ids.map((fsi) => {
+                        return fss[fsi].name;
+                      }).join('\n'),
+                      primary_climate_interactions: record.primary_climate_interaction_ids.map((pcii) => {
+                        return pcis[pcii].name;
+                      }).join('\n'),
+                      shmcap_goals: record.shmcap_goal_ids.map((sgi) => {
+                        return scgs[sgi].name
+                      }).join('\n'),
+                      progress_notes: record.progress_note_ids.map((pni) => {
+                        return pns[pni].note
+                      }).join('\n'),
+                  }));
+                  const csv = convertToCSV({
+                      data,
+                  });
+                  downloadCSV(csv, 'action-tracks');
+               });
+              });
+             });
+            });
+           });
+          });
+         });
+        });
+       });
+      });
+     });
+    });
+};
 
 const cardActionStyle = {
     zIndex: 2,
@@ -151,11 +210,12 @@ const TracksActions = ({ resource, filters, displayedFilters, filterValues, base
     <CardActions style={cardActionStyle}>
         {filters && React.cloneElement(filters, { resource, showFilter, displayedFilters, filterValues, context: 'button' }) }
         <CreateButton basePath={basePath} />
+        <ExportButton onClick={action_track_exporter} maxRecords={10000}/>
         <RefreshButton />
     </CardActions>
 );
 export const ActionTrackList = (props) => (
-    <List {...props} actions={<TracksActions/>} filters={<TrackFilter/>}>
+    <List {...props} exporter={action_track_exporter}  filters={<TrackFilter/>}>
       <Datagrid rowClick={(id, bp, rec) => 'show'}>
         <TextField label="Title" source="title" />
         <ReferenceArrayField sortable={false} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
