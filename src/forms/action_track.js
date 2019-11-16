@@ -1,12 +1,13 @@
 import React from 'react';
 import CardActions from '@material-ui/core/CardActions';
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import { withStyles } from "@material-ui/core/styles";
 
-import { DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
+import { CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
 
 
 export const ActionTrackCreate = (props) => (
-<Create {...props}>
+<Create undoable={false} {...props}>
   <SimpleForm>
     <TextInput label="Title" source='title' required={true}/>
     <LongTextInput label="Description" source='description' />
@@ -50,6 +51,7 @@ export const ActionTrackCreate = (props) => (
     <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
+
     <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
@@ -58,7 +60,7 @@ export const ActionTrackCreate = (props) => (
 );
 
 export const ActionTrackEdit = (props) => (
-    <Edit {...props}>
+    <Edit undoable={false} {...props}>
       <SimpleForm>
         <TextInput label="Title" source='title' required={true}/>
         <LongTextInput label="Description" source='description' />
@@ -103,34 +105,82 @@ export const ActionTrackEdit = (props) => (
         <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
+
         <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
       </SimpleForm>
     </Edit>
 );
-
-export const ActionTrackList = (props) => (
-    <List {...props}>
-      <Datagrid rowClick={(id, bp, rec) => 'show'}>
-        <TextField label="Title" source="title" />
-        <ReferenceField allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
-          <TextField source="timeframe"/>
-        </ReferenceField>
-        <ReferenceArrayField label="Action Types"   source="action_type_ids" reference="action-types">
-          <SingleFieldList>
-            <ChipField source="type"/>
-          </SingleFieldList>
-        </ReferenceArrayField>
-      </Datagrid>
-    </List>
-);
+const track_filter_styles = {
+  form: {
+    padding: '10px'
+  },
+};
+const TrackFilter = withStyles(track_filter_styles)(({classes, ...props}) => (
+    <Filter {...props} classes={classes}>
+      <TextInput label="Search Records" source="query" alwaysOn />
+      <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+        <SelectArrayInput optionText="name" />
+      </ReferenceArrayInput>
+      <ReferenceArrayInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
+        <SelectArrayInput optionText="name"/>
+      </ReferenceArrayInput>
+      <ReferenceArrayInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <SelectArrayInput optionText="name"/>
+      </ReferenceArrayInput>
+      <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
+        <SelectArrayInput optionText="type" />
+      </ReferenceArrayInput>
+      <ReferenceInput label="Global Action" source="global_action_id" reference="global-actions">
+        <SelectInput optionText="action"/>
+      </ReferenceInput>
+    </Filter>
+));
 
 const cardActionStyle = {
     zIndex: 2,
     display: 'inline-block',
     float: 'right',
 };
+
+const TracksActions = ({ resource, filters, displayedFilters, filterValues, basePath, showFilter }) => (
+    <CardActions style={cardActionStyle}>
+        {filters && React.cloneElement(filters, { resource, showFilter, displayedFilters, filterValues, context: 'button' }) }
+        <CreateButton basePath={basePath} />
+        <RefreshButton />
+    </CardActions>
+);
+export const ActionTrackList = (props) => (
+    <List {...props} actions={<TracksActions/>} filters={<TrackFilter/>}>
+      <Datagrid rowClick={(id, bp, rec) => 'show'}>
+        <TextField label="Title" source="title" />
+        <ReferenceField allowEmpty={true}  source="completion_timeframe_id" reference="completion-timeframes">
+          <TextField source="timeframe"/>
+        </ReferenceField>
+        <ReferenceArrayField allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
+          <SingleFieldList>
+            <ChipField source="type"/>
+          </SingleFieldList>
+        </ReferenceArrayField>
+        <ReferenceArrayField allowEmpty={true} label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+          <SingleFieldList>
+            <ChipField source="name"/>
+          </SingleFieldList>
+        </ReferenceArrayField>
+        <ReferenceField allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+            <TextField source="name"/>
+        </ReferenceField>
+        <ReferenceField allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+          <TextField source="name"/>
+        </ReferenceField>
+        <ReferenceField allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+          <TextField source="action"/>
+        </ReferenceField>
+      </Datagrid>
+    </List>
+);
+
 const AddNewProgressNoteButton = ({ record }) => (
   <Button
     component={Link}

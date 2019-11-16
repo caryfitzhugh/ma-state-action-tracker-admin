@@ -32,11 +32,15 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
             case GET_LIST: {
                 const { page, perPage: per_page } = params.pagination;
                 const { field: sort_by_field, order: sort_by_order } = params.sort;
+                const filter = params.filter;
+                const qstring = filter.query;
+                delete filter['query'];
                 const query = {
                     page: JSON.stringify(page),
                     per_page: JSON.stringify(per_page),
                     sort_by_field: sort_by_field,
                     sort_by_order: sort_by_order,
+                    query: qstring,
                     filter: JSON.stringify(params.filter)
                 };
                 url = `${apiUrl}/${resource}/?${stringify(query)}`;

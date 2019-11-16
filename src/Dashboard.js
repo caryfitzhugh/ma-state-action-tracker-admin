@@ -3,10 +3,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 
-const Dashboard = () => 
+const Dashboard = () =>
     <Card>
         <CardHeader title="ma-state-tracker-admin" />
-        <CardContent>A work in progress...</CardContent>
+        <CardContent>MA State Action Tracker</CardContent>
     </Card>
 
 
