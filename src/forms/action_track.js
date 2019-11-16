@@ -120,21 +120,24 @@ const track_filter_styles = {
 const TrackFilter = withStyles(track_filter_styles)(({classes, ...props}) => (
     <Filter {...props} classes={classes}>
       <TextInput label="Search Records" source="query" alwaysOn />
-      <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
-        <SelectArrayInput optionText="name" />
+      <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
+        <SelectArrayInput optionText="type" />
       </ReferenceArrayInput>
       <ReferenceArrayInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
         <SelectArrayInput optionText="name"/>
       </ReferenceArrayInput>
-      <ReferenceArrayInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
-        <SelectArrayInput optionText="name"/>
-      </ReferenceArrayInput>
-      <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
-        <SelectArrayInput optionText="type" />
+      <ReferenceArrayInput label="Completion Timeframes" source="completion_timeframe_id" reference="completion-timeframes">
+        <SelectArrayInput optionText="timeframe"/>
       </ReferenceArrayInput>
       <ReferenceInput label="Global Action" source="global_action_id" reference="global-actions">
         <SelectInput optionText="action"/>
       </ReferenceInput>
+      <ReferenceArrayInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <SelectArrayInput optionText="name"/>
+      </ReferenceArrayInput>
+      <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+        <SelectArrayInput optionText="name" />
+      </ReferenceArrayInput>
     </Filter>
 ));
 
@@ -155,28 +158,28 @@ export const ActionTrackList = (props) => (
     <List {...props} actions={<TracksActions/>} filters={<TrackFilter/>}>
       <Datagrid rowClick={(id, bp, rec) => 'show'}>
         <TextField label="Title" source="title" />
-        <ReferenceField allowEmpty={true}  source="completion_timeframe_id" reference="completion-timeframes">
-          <TextField source="timeframe"/>
-        </ReferenceField>
-        <ReferenceArrayField allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
+        <ReferenceArrayField sortable={false} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
           <SingleFieldList>
             <ChipField source="type"/>
           </SingleFieldList>
         </ReferenceArrayField>
-        <ReferenceArrayField allowEmpty={true} label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+        <ReferenceField sortable={false} allowEmpty={true}  source="completion_timeframe_id" reference="completion-timeframes">
+          <TextField source="timeframe"/>
+        </ReferenceField>
+        <ReferenceField sortable={false} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+            <TextField source="name"/>
+        </ReferenceField>
+        <ReferenceField sortable={false} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+          <TextField source="action"/>
+        </ReferenceField>
+        <ReferenceField sortable={false} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+          <TextField source="name"/>
+        </ReferenceField>
+        <ReferenceArrayField sortable={false} allowEmpty={true} label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
           <SingleFieldList>
             <ChipField source="name"/>
           </SingleFieldList>
         </ReferenceArrayField>
-        <ReferenceField allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
-            <TextField source="name"/>
-        </ReferenceField>
-        <ReferenceField allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
-          <TextField source="name"/>
-        </ReferenceField>
-        <ReferenceField allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
-          <TextField source="action"/>
-        </ReferenceField>
       </Datagrid>
     </List>
 );
