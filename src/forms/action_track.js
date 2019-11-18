@@ -4,7 +4,7 @@ import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { withStyles } from "@material-ui/core/styles";
 import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
-import { downloadCSV, ExportButton, CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
+import { NumberField, downloadCSV, ExportButton, CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
 
 
 export const ActionTrackCreate = (props) => (
@@ -217,6 +217,7 @@ const TracksActions = ({ resource, filters, displayedFilters, filterValues, base
 export const ActionTrackList = (props) => (
     <List {...props} exporter={action_track_exporter}  filters={<TrackFilter/>}>
       <Datagrid rowClick={(id, bp, rec) => 'show'}>
+        <NumberField label="ID" source="id" />
         <TextField label="Title" source="title" />
         <ReferenceArrayField sortable={false} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
           <SingleFieldList>
@@ -249,8 +250,7 @@ const AddNewProgressNoteButton = ({ record }) => (
     component={Link}
     to={{
       pathname: "/progress-notes/create",
-      search: `?action_track_id=22`,
-     // ${record.id}`,
+      search: `?action_track_id=${record.id}`,
     }}
     label="Add a progress note"
   >
@@ -267,6 +267,7 @@ const ShowActions = ({ basePath, data, resource }) => (
 export const ActionTrackShow = (props) => (
   <Show actions={<ShowActions/>} {...props}>
     <SimpleShowLayout>
+      <NumberField label="ID" source="id" />
       <TextField label="Title" source='title'/>
       <TextField label="Description" source='description' />
 

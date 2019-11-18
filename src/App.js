@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Admin, Resource, ListGuesser, EditGuesser , CreateGuesser} from 'react-admin';
+import { AuditTrailList } from './forms/audit_trail.js';
 import { ActionTrackList, ActionTrackShow, ActionTrackEdit, ActionTrackCreate } from './forms/action_track.js';
 import { ActionStatusList, ActionStatusEdit, ActionStatusCreate } from './forms/action_status.js';
 import { ActionTypeList, ActionTypeEdit, ActionTypeCreate } from './forms/action_type.js';
@@ -34,6 +35,8 @@ const App = () =>
         <hr/>
 
         <Resource name="progress-notes" create={ProgressNoteCreate}/>
+        <Resource name="users" />
+
         <Resource options={{label: "Action Status"}} name="action-statuses" list={ActionStatusList} edit={ActionStatusEdit} create={ActionStatusCreate}/>
         <Resource options={{label: "Action Type"}} name="action-types" list={ActionTypeList} edit={ActionTypeEdit} create={ActionTypeCreate} />
         <Resource options={{label: "Agency Priority"}} name="agency-priorities" list={AgencyPriorityList} edit={AgencyPriorityEdit} create={AgencyPriorityCreate} />
@@ -45,6 +48,7 @@ const App = () =>
         <Resource options={{label: "Possible Partner"}} name="partners" list={PartnerList} edit={PartnerEdit} create={PartnerCreate} />
         <Resource options={{label: "Primary Climate Interaction"}} name="primary-climate-interactions" list={PrimaryClimateInteractionList} edit={PrimaryClimateInteractionEdit} create={PrimaryClimateInteractionCreate}/>
         <Resource options={{label: "SHMCAP Goal"}} name="shmcap-goals" list={ShmcapGoalList} edit={ShmcapGoalEdit} create={ShmcapGoalCreate} />
+        <Resource options={{label: "Audit Trail"}} name="audit-trails" list={AuditTrailList} edit={false} create={false} show={false} />
     </Admin>
 
 export default App;
