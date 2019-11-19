@@ -1,30 +1,92 @@
 import React from 'react';
-import { NumberField, FunctionField, ReferenceField, ReferenceInput, SelectInput, List, Create, Edit, SimpleForm, DisabledInput, TextInput, DateInput, LongTextInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton } from 'react-admin';
+import { ReferenceArrayField, NumberField, FunctionField, ReferenceField, ReferenceInput, SelectInput, List, Create, Edit, SimpleForm, DisabledInput, TextInput, DateInput, LongTextInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton } from 'react-admin';
 
 const rowClick = (id, basePath, record) => 'show';
 
 const render_changes = (record) => {
   return record.changes;
 };
+const ChangedValue = (props) => {
+ if (props.field === 'title') {
+    return <div>
+      <label>Title </label>
+      <span>{props.value}</span>
+     </div>;
+ } else if (props.field === 'description') {
+    return <div>
+      <label>Description</label>
+      <span>{props.value}</span>
+     </div>;
+ } else if (props.field === 'completion_timeframe_id') {
+    return <div>
+     <label>Completion Timeframe </label>
+     <ReferenceField
+            basePath='completion-timeframes/'
+            label="Completion Timeframe"
+            source="value"
+            record={props}
+            reference="completion-timeframes">
+        <TextField source="timeframe"/>
+      </ReferenceField>
+     </div>
+ } else if (props.field === 'action_status_id') {
+    return <div>
+     <label>Action Status </label>
+     <ReferenceField
+            basePath='action-statuses/'
+            label="Action Status"
+            source="value"
+            record={props}
+            reference="action-statuses">
+        <TextField source="status"/>
+      </ReferenceField>
+     </div>
+ } else if (props.field === 'lead_agency_id') {
+    return <div>
+     <label>Lead Agency </label>
+     <ReferenceField
+            basePath='lead-agencies/'
+            label="Lead Agency"
+            source="value"
+            record={props}
+            reference="lead-agencies">
+        <TextField source="name"/>
+      </ReferenceField>
+     </div>
+ } else if (props.field === 'agency_priority_id') {
+    return <div>
+     <label>Agency Priority</label>
+     <ReferenceField
+            basePath='agency-priorities//'
+            label="Agency Priority"
+            source="value"
+            record={props}
+            reference="agency-priorities">
+        <TextField source="name"/>
+      </ReferenceField>
+     </div>
+ } else {
+    return <pre>{JSON.stringify(props)}</pre>;
+ }
+};
+
 class RecordChanges extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-console.log(this.props.record.changes);
       let changes = [];
       Object.keys(this.props.record.changes).forEach((k) => {
-        changes.push([k, this.props.record.changes[k][0], this.props.record.changes[k][1]]);
+        changes.push([k, this.props.record.changes[k]]);
       });
+
       let td_style = {padding: '10px'};
+
       return <table className='table' style={{padding: "10px", textAlign: "left"}}>
         <tbody>
           {changes.map((c) => {
-            return <tr >
-                <td style={Object.assign({}, td_style, {fontWeight: 700})} >{c[0]}</td>
-                <td style={{ fontStyle: "italic"}} > {c[2]} </td>
-              </tr>;
+            return <ChangedValue field={c[0]} value={c[1][1]} old_value={c[1][0]} />;
           })}
         </tbody>
       </table>;
@@ -38,8 +100,14 @@ export const AuditTrailList = (props) => (
             <TextField source="username"/>
           </ReferenceField>
           <DateField showTime={true} label="When" source="created_at" />
-          <TextField label="Record Type" source="auditable_type" />
-          <NumberField label="Record ID" source="auditable_id" />
+          <ReferenceField
+            basePath='action-tracks/'
+            label='Action Track'
+            source="auditable_id"
+            record={props}
+            reference='action-tracks'>
+            <TextField source="title" />
+          </ReferenceField>
           <RecordChanges {...props} />
         </Datagrid>
     </List>
