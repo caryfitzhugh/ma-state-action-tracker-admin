@@ -28,11 +28,15 @@ const theme = createMuiTheme({
 });
 
 const App = () =>
-    <Admin theme={theme} dataProvider={dataProvider(endpoint)} authProvider={authProvider}>
+    <Admin theme={theme}
+        dataProvider={dataProvider(endpoint)}
+        authProvider={authProvider}>
         {permissions => [
-          <Resource options={{label: "Action Track"}} name='action-tracks'
+          <Resource options={{label: "Action Track", permissions: permissions}} name='action-tracks'
                     show={ActionTrackShow}
-                    list={ActionTrackList} edit={ActionTrackEdit} create={ActionTrackCreate} />,
+                    list={ActionTrackList}
+                    edit={ActionTrackEdit}
+                    create={ActionTrackCreate} />,
           <Resource name="progress-notes" create={ProgressNoteCreate}/>,
           <Resource name="users" />,
           <Resource

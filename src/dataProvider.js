@@ -35,14 +35,17 @@ export default (apiUrl, httpClient = fetchUtils.fetchJson) => {
                 const filter = params.filter;
                 const qstring = filter.query;
                 delete filter['query'];
-                const query = {
+                let query = {
                     page: JSON.stringify(page),
                     per_page: JSON.stringify(per_page),
                     sort_by_field: sort_by_field,
                     sort_by_order: sort_by_order,
                     query: qstring,
-                    filter: JSON.stringify(params.filter)
+                    filter: JSON.stringify(params.filter),
                 };
+                if (resource === 'action-tracks') {
+                  query['show_private'] = 'true';
+                }
                 url = `${apiUrl}/${resource}/?${stringify(query)}`;
                 break;
             }

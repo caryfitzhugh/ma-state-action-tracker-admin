@@ -4,17 +4,19 @@ import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { withStyles } from "@material-ui/core/styles";
 import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
-import { NumberField, downloadCSV, ExportButton, CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
+import { BooleanInput, BooleanField, NumberField, downloadCSV, ExportButton, CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
 
 import FundingSourceQuickCreateButton from "./create_funding_source_button.js";
 import PartnerQuickCreateButton from "./create_partner_button.js";
 import LeadAgencyQuickCreateButton from "./create_lead_agency_button.js";
 
-export const ActionTrackCreate = (props) => (
+export const ActionTrackCreate = ({permissions, ...props}) => (
 <Create undoable={false} {...props}>
   <SimpleForm>
     <TextInput label="Title" source='title' required={true}/>
     <LongTextInput label="Description" source='description' />
+    {props.options.permissions.admin ?  <BooleanInput label="Public" source="public" /> :
+      <BooleanField label="Public" source='public'/>}
     <ReferenceInput label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
       <SelectInput optionText="timeframe"/>
     </ReferenceInput>
@@ -71,6 +73,8 @@ export const ActionTrackEdit = (props) => (
       <SimpleForm>
         <TextInput label="Title" source='title' required={true}/>
         <LongTextInput label="Description" source='description' />
+        {props.options.permissions.admin ?  <BooleanInput label="Public" source="public" /> :
+          <BooleanField label="Public" source='public'/>}
 
         <ReferenceInput label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
           <SelectInput optionText="timeframe"/>
@@ -130,6 +134,7 @@ const track_filter_styles = {
 const TrackFilter = withStyles(track_filter_styles)(({classes, ...props}) => (
     <Filter {...props} classes={classes}>
       <TextInput label="Search Records" source="query" alwaysOn />
+      <BooleanInput label="Public" source='public' />
       <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
         <SelectArrayInput optionText="type" />
       </ReferenceArrayInput>
@@ -231,6 +236,7 @@ export const ActionTrackList = (props) => (
     <List {...props} exporter={action_track_exporter}  filters={<TrackFilter/>}>
       <Datagrid rowClick={(id, bp, rec) => 'show'}>
         <NumberField label="ID" source="id" />
+        <BooleanField label="Public" source="public" />
         <TextField label="Title" source="title" />
         <ReferenceArrayField sortable={false} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
           <SingleFieldList>
@@ -286,6 +292,7 @@ export const ActionTrackShow = (props) => (
   <Show actions={<ShowActions/>} {...props}>
     <SimpleShowLayout>
       <NumberField label="ID" source="id" />
+      <BooleanField label="Public" source="public" />
       <TextField label="Title" source='title'/>
       <TextField label="Description" source='description' />
 

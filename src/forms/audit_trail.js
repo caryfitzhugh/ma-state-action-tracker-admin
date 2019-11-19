@@ -10,12 +10,16 @@ const ChangedValue = (props) => {
  if (props.field === 'title') {
     return <div>
       <label>Title </label>
-      <span>{props.value}</span>
+      <div>{props.value}</div>
      </div>;
  } else if (props.field === 'description') {
     return <div>
       <label>Description</label>
-      <span>{props.value}</span>
+      <div>{props.value}</div>
+     </div>;
+ } else if (props.field === 'public') {
+    return <div>
+      <label>{props.value ? 'Made Public' : 'Made Private'}</label>
      </div>;
  } else if (props.field === 'completion_timeframe_id') {
     return <div>
