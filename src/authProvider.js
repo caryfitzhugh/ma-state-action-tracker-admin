@@ -1,4 +1,4 @@
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_CHECK } from 'react-admin';
+import { AUTH_GET_PERMISSIONS, AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_CHECK } from 'react-admin';
 import endpoint from './endpoint';
 
 export default (type, params) => {
@@ -16,6 +16,9 @@ export default (type, params) => {
                 if (res.status !== 200) {
                     throw new Error('User could not be authenticated. Please check your username and password and try again.');
                 }
+                return res.json()})
+            .then(data => {
+                localStorage['roles'] = JSON.stringify(data.roles);
                 return Promise.resolve();
             })
     }
@@ -32,6 +35,10 @@ export default (type, params) => {
                 if (res.status !== 200) {
                     throw new Error('User could not be sgned out. Please try again.');
                 }
+                return res.json();
+            })
+            .then(data => {
+                localStorage['roles'] = JSON.stringify(data.roles);
                 return Promise.resolve();
             })
     }
@@ -55,8 +62,14 @@ export default (type, params) => {
                 if (data.logged_in === false)
                     throw new Error('Authentication failure. Please log in again.')
                 else
+                    localStorage['roles'] = JSON.stringify(data.roles);
                     return Promise.resolve();
             })
+    }
+    // GET PERMISSIONS
+    if (type === AUTH_GET_PERMISSIONS) {
+      const roles = JSON.parse(localStorage.getItem('roles'));
+      return roles ? Promise.resolve(roles) : Promise.reject();
     }
     return Promise.reject('Unknown method');
 };

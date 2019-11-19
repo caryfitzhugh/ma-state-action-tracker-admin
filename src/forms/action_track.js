@@ -6,6 +6,9 @@ import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
 import { NumberField, downloadCSV, ExportButton, CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
 
+import FundingSourceQuickCreateButton from "./create_funding_source_button.js";
+import PartnerQuickCreateButton from "./create_partner_button.js";
+import LeadAgencyQuickCreateButton from "./create_lead_agency_button.js";
 
 export const ActionTrackCreate = (props) => (
 <Create undoable={false} {...props}>
@@ -32,6 +35,7 @@ export const ActionTrackCreate = (props) => (
     <ReferenceInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
       <SelectInput optionText="name"/>
     </ReferenceInput>
+    <LeadAgencyQuickCreateButton/>
 
     <ReferenceInput label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
       <SelectInput optionText="name"/>
@@ -44,10 +48,12 @@ export const ActionTrackCreate = (props) => (
     <ReferenceArrayInput label='Possible Partners' source="partner_ids" reference="partners">
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
+    <PartnerQuickCreateButton />
 
     <ReferenceArrayInput label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
+    <FundingSourceQuickCreateButton />
 
     <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
       <SelectArrayInput optionText="name" />
@@ -86,6 +92,7 @@ export const ActionTrackEdit = (props) => (
         <ReferenceInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
           <SelectInput optionText="name"/>
         </ReferenceInput>
+        <LeadAgencyQuickCreateButton/>
 
         <ReferenceInput label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
           <SelectInput optionText="name"/>
@@ -98,10 +105,12 @@ export const ActionTrackEdit = (props) => (
         <ReferenceArrayInput label='Partners' source="partner_ids" reference="partners">
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
+        <PartnerQuickCreateButton />
 
-        <ReferenceArrayInput label='Funding Sources' source="funding_source_ids" reference="funding-sources">
+        <ReferenceArrayInput label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
+        <FundingSourceQuickCreateButton />
 
         <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
           <SelectArrayInput optionText="name" />
@@ -127,6 +136,10 @@ const TrackFilter = withStyles(track_filter_styles)(({classes, ...props}) => (
       <ReferenceArrayInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
         <SelectArrayInput optionText="name"/>
       </ReferenceArrayInput>
+      <ReferenceArrayInput label='Possible Funding Source' source="funding_source_ids" reference="funding-sources">
+        <SelectArrayInput optionText="name" />
+      </ReferenceArrayInput>
+
       <ReferenceArrayInput label="Completion Timeframes" source="completion_timeframe_id" reference="completion-timeframes">
         <SelectArrayInput optionText="timeframe"/>
       </ReferenceArrayInput>
@@ -224,15 +237,20 @@ export const ActionTrackList = (props) => (
             <ChipField source="type"/>
           </SingleFieldList>
         </ReferenceArrayField>
+        <ReferenceField sortable={false} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+          <TextField source="action"/>
+        </ReferenceField>
         <ReferenceField sortable={false} allowEmpty={true}  source="completion_timeframe_id" reference="completion-timeframes">
           <TextField source="timeframe"/>
         </ReferenceField>
         <ReferenceField sortable={false} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
             <TextField source="name"/>
         </ReferenceField>
-        <ReferenceField sortable={false} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
-          <TextField source="action"/>
-        </ReferenceField>
+      <ReferenceArrayField sortable={false} label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
+        <SingleFieldList>
+          <ChipField source="name" />
+        </SingleFieldList>
+      </ReferenceArrayField>
         <ReferenceField sortable={false} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
           <TextField source="name"/>
         </ReferenceField>
@@ -250,7 +268,7 @@ const AddNewProgressNoteButton = ({ record }) => (
     component={Link}
     to={{
       pathname: "/progress-notes/create",
-      search: `?action_track_id=${record.id}`,
+      search: `?action_track_id=${record && record.id}`,
     }}
     label="Add a progress note"
   >
@@ -316,7 +334,7 @@ export const ActionTrackShow = (props) => (
         <TextField label="name" />
       </ReferenceArrayField>
 
-      <ReferenceArrayField label='Funding Sources' source="funding_source_ids" reference="funding-sources">
+      <ReferenceArrayField label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
         <SingleFieldList>
           <ChipField source="name" />
         </SingleFieldList>

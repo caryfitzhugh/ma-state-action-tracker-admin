@@ -29,26 +29,95 @@ const theme = createMuiTheme({
 
 const App = () =>
     <Admin theme={theme} dataProvider={dataProvider(endpoint)} authProvider={authProvider}>
-        <Resource options={{label: "Action Track"}} name='action-tracks'
-                  show={ActionTrackShow}
-                  list={ActionTrackList} edit={ActionTrackEdit} create={ActionTrackCreate} />
-        <hr/>
+        {permissions => [
+          <Resource options={{label: "Action Track"}} name='action-tracks'
+                    show={ActionTrackShow}
+                    list={ActionTrackList} edit={ActionTrackEdit} create={ActionTrackCreate} />,
+          <Resource name="progress-notes" create={ProgressNoteCreate}/>,
+          <Resource name="users" />,
+          <Resource
+            options={{label: "Action Status"}}
+            name="action-statuses"
+            list={ActionStatusList} edit={ActionStatusEdit} create={ActionStatusCreate}/>,
 
-        <Resource name="progress-notes" create={ProgressNoteCreate}/>
-        <Resource name="users" />
+          <Resource
+            options={{label: "Action Type"}}
+            name="action-types"
+            list={permissions.admin ? ActionTypeList : null}
+            edit={permissions.admin ? ActionTypeEdit : null}
+            create={permissions.admin ? ActionTypeCreate : null} />,
 
-        <Resource options={{label: "Action Status"}} name="action-statuses" list={ActionStatusList} edit={ActionStatusEdit} create={ActionStatusCreate}/>
-        <Resource options={{label: "Action Type"}} name="action-types" list={ActionTypeList} edit={ActionTypeEdit} create={ActionTypeCreate} />
-        <Resource options={{label: "Agency Priority"}} name="agency-priorities" list={AgencyPriorityList} edit={AgencyPriorityEdit} create={AgencyPriorityCreate} />
-        <Resource options={{label: "Completion Timeframe"}} name="completion-timeframes" list={CompletionTimeframeList} edit={CompletionTimeframeEdit} create={CompletionTimeframeCreate}  />
-        <Resource options={{label: "Exec Office"}} name="exec-offices" list={ExecOfficeList} edit={ExecOfficeEdit} create={ExecOfficeCreate}  />
-        <Resource options={{label: "Possible Funding Source"}} name="funding-sources" list={FundingSourceList} edit={FundingSourceEdit} create={FundingSourceCreate} />
-        <Resource options={{label: "Global Action"}} name="global-actions" list={GlobalActionList} edit={GlobalActionEdit} create={GlobalActionCreate} />
-        <Resource options={{label: "Lead Agency"}} name="lead-agencies" list={LeadAgencyList} edit={LeadAgencyEdit} create={LeadAgencyCreate} />
-        <Resource options={{label: "Possible Partner"}} name="partners" list={PartnerList} edit={PartnerEdit} create={PartnerCreate} />
-        <Resource options={{label: "Primary Climate Interaction"}} name="primary-climate-interactions" list={PrimaryClimateInteractionList} edit={PrimaryClimateInteractionEdit} create={PrimaryClimateInteractionCreate}/>
-        <Resource options={{label: "SHMCAP Goal"}} name="shmcap-goals" list={ShmcapGoalList} edit={ShmcapGoalEdit} create={ShmcapGoalCreate} />
-        <Resource options={{label: "Audit Trail"}} name="audit-trails" list={AuditTrailList} edit={false} create={false} show={false} />
+          <Resource
+            options={{label: "Agency Priority"}}
+            name="agency-priorities"
+            list={permissions.admin ? AgencyPriorityList : null}
+            edit={permissions.admin ? AgencyPriorityEdit : null}
+            create={permissions.admin ? AgencyPriorityCreate : null} />,
+
+          <Resource
+            options={{label: "Completion Timeframe"}}
+            name="completion-timeframes"
+            list={permissions.admin ? CompletionTimeframeList : null}
+            edit={permissions.admin ? CompletionTimeframeEdit : null}
+            create={permissions.admin ? CompletionTimeframeCreate : null}  />,
+
+          <Resource
+            options={{label: "Exec Office"}}
+            name="exec-offices"
+            list={permissions.admin ? ExecOfficeList : null}
+            edit={permissions.admin ? ExecOfficeEdit : null}
+            create={permissions.admin ? ExecOfficeCreate : null}  />,
+
+          <Resource
+            options={{label: "Possible Funding Source"}}
+            name="funding-sources"
+            list={FundingSourceList}
+            edit={FundingSourceEdit}
+            create={FundingSourceCreate} />,
+
+          <Resource
+            options={{label: "Global Action"}}
+            name="global-actions"
+            list={permissions.admin ? GlobalActionList : null}
+            edit={permissions.admin ? GlobalActionEdit : null}
+            create={permissions.admin ? GlobalActionCreate : null} />,
+
+          <Resource
+            options={{label: "Lead Agency"}}
+            name="lead-agencies"
+            list={LeadAgencyList}
+            edit={LeadAgencyEdit}
+            create={LeadAgencyCreate} />,
+
+          <Resource
+            options={{label: "Possible Partner"}}
+            name="partners"
+            list={PartnerList}
+            edit={PartnerEdit}
+            create={PartnerCreate} />,
+
+          <Resource
+            options={{label: "Primary Climate Interaction"}}
+            name="primary-climate-interactions"
+            list={permissions.admin ? PrimaryClimateInteractionList : null}
+            edit={permissions.admin ? PrimaryClimateInteractionEdit : null}
+            create={permissions.admin ? PrimaryClimateInteractionCreate : null}/>,
+
+          <Resource
+            options={{label: "SHMCAP Goal"}}
+            name="shmcap-goals"
+            list={permissions.admin ? ShmcapGoalList : null}
+            edit={permissions.admin ? ShmcapGoalEdit : null}
+            create={permissions.admin ? ShmcapGoalCreate : null} />,
+
+          <Resource
+            options={{label: "Audit Trail"}}
+            name="audit-trails"
+            list={permissions.admin ? AuditTrailList : null}
+            edit={false}
+            create={false}
+            show={false} />
+        ]}
     </Admin>
 
 export default App;
