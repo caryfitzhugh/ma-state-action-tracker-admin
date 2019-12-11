@@ -135,6 +135,10 @@ const TrackFilter = withStyles(track_filter_styles)(({classes, ...props}) => (
     <Filter {...props} classes={classes}>
       <TextInput label="Search Records" source="query" alwaysOn />
       <BooleanInput label="Public" source='public' />
+
+      <ReferenceArrayInput label="Action Status"   source="action_status_id" reference="action-statuses">
+        <SelectArrayInput optionText="status"/>
+      </ReferenceArrayInput>
       <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
         <SelectArrayInput optionText="type" />
       </ReferenceArrayInput>
