@@ -32,7 +32,7 @@ const App = () =>
         dataProvider={dataProvider(endpoint)}
         authProvider={authProvider}>
         {permissions => [
-          <Resource options={{label: "Action Track", permissions: permissions}} name='action-tracks'
+          <Resource options={{label: "Action List", permissions: permissions}} name='action-tracks'
                     show={ActionTrackShow}
                     list={ActionTrackList}
                     edit={ActionTrackEdit}
