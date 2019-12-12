@@ -23,7 +23,7 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
     </ReferenceInput>
 
 
-    <ReferenceInput label="Action Status"   source="action_status_id" reference="action-statuses">
+    <ReferenceInput allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
       <SelectInput optionText="status"/>
     </ReferenceInput>
 
@@ -31,20 +31,20 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
       <SelectArrayInput optionText="type" />
     </ReferenceArrayInput>
 
-    <ReferenceInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
+    <ReferenceInput allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
       <SelectInput optionText="name"/>
     </ReferenceInput>
 
-    <ReferenceInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+    <ReferenceInput allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
       <SelectInput optionText="name"/>
     </ReferenceInput>
     <LeadAgencyQuickCreateButton/>
 
-    <ReferenceInput label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+    <ReferenceInput allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
       <SelectInput optionText="name"/>
     </ReferenceInput>
 
-    <ReferenceInput label="Global Action" source="global_action_id" reference="global-actions">
+    <ReferenceInput allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
       <SelectInput optionText="action"/>
     </ReferenceInput>
 
@@ -77,11 +77,11 @@ export const ActionTrackEdit = (props) => (
         {props.options.permissions.admin ?  <BooleanInput label="Public" source="public" /> :
           <BooleanField label="Public" source='public'/>}
 
-        <ReferenceInput label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
+        <ReferenceInput allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
           <SelectInput optionText="timeframe"/>
         </ReferenceInput>
 
-        <ReferenceInput label="Action Status"   source="action_status_id" reference="action-statuses">
+        <ReferenceInput allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
           <SelectInput optionText="status"/>
         </ReferenceInput>
 
@@ -90,20 +90,20 @@ export const ActionTrackEdit = (props) => (
         </ReferenceArrayInput>
 
 
-        <ReferenceInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
+        <ReferenceInput allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
           <SelectInput optionText="name"/>
         </ReferenceInput>
 
-        <ReferenceInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <ReferenceInput allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
           <SelectInput optionText="name"/>
         </ReferenceInput>
         <LeadAgencyQuickCreateButton/>
 
-        <ReferenceInput label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+        <ReferenceInput allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
           <SelectInput optionText="name"/>
         </ReferenceInput>
 
-        <ReferenceInput label="Global Action" source="global_action_id" reference="global-actions">
+        <ReferenceInput allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
           <SelectInput optionText="action"/>
         </ReferenceInput>
 
