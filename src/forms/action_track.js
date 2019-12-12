@@ -3,6 +3,7 @@ import CardActions from '@material-ui/core/CardActions';
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { withStyles } from "@material-ui/core/styles";
 import { unparse as convertToCSV } from 'papaparse/papaparse.min';
+import PostCreateToolbar from './post_create_toolbar.js';
 
 import { BooleanInput, BooleanField, NumberField, downloadCSV, ExportButton, CreateButton, RefreshButton, Filter, DeleteButton, Button, Link, ReferenceArrayField, Show, SimpleShowLayout, SelectArrayInput, ReferenceArrayInput, SelectInput, ReferenceInput, DateField, ReferenceField, SingleFieldList, ChipField, List, Create, Edit, SimpleForm, DisabledInput, LongTextInput, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, EditButton } from 'react-admin';
 
@@ -12,7 +13,7 @@ import LeadAgencyQuickCreateButton from "./create_lead_agency_button.js";
 
 export const ActionTrackCreate = ({permissions, ...props}) => (
 <Create undoable={false} {...props}>
-  <SimpleForm>
+  <SimpleForm toolbar={<PostCreateToolbar />} >
     <TextInput label="Title" source='title' required={true}/>
     <LongTextInput label="Description" source='description' />
     {props.options.permissions.admin ?  <BooleanInput label="Public" source="public" /> :
@@ -70,7 +71,7 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
 
 export const ActionTrackEdit = (props) => (
     <Edit undoable={false} {...props}>
-      <SimpleForm>
+      <SimpleForm toolbar={<PostCreateToolbar />} >
         <TextInput label="Title" source='title' required={true}/>
         <LongTextInput label="Description" source='description' />
         {props.options.permissions.admin ?  <BooleanInput label="Public" source="public" /> :
