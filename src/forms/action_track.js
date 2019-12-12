@@ -23,7 +23,7 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
     </ReferenceInput>
 
 
-    <ReferenceInput allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
       <SelectInput optionText="status"/>
     </ReferenceInput>
 
@@ -31,20 +31,20 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
       <SelectArrayInput optionText="type" />
     </ReferenceArrayInput>
 
-    <ReferenceInput allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
       <SelectInput optionText="name"/>
     </ReferenceInput>
 
-    <ReferenceInput allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
       <SelectInput optionText="name"/>
     </ReferenceInput>
     <LeadAgencyQuickCreateButton/>
 
-    <ReferenceInput allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
       <SelectInput optionText="name"/>
     </ReferenceInput>
 
-    <ReferenceInput allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
       <SelectInput optionText="action"/>
     </ReferenceInput>
 
@@ -77,11 +77,11 @@ export const ActionTrackEdit = (props) => (
         {props.options.permissions.admin ?  <BooleanInput label="Public" source="public" /> :
           <BooleanField label="Public" source='public'/>}
 
-        <ReferenceInput allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
           <SelectInput optionText="timeframe"/>
         </ReferenceInput>
 
-        <ReferenceInput allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
           <SelectInput optionText="status"/>
         </ReferenceInput>
 
@@ -90,20 +90,20 @@ export const ActionTrackEdit = (props) => (
         </ReferenceArrayInput>
 
 
-        <ReferenceInput allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
           <SelectInput optionText="name"/>
         </ReferenceInput>
 
-        <ReferenceInput allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
           <SelectInput optionText="name"/>
         </ReferenceInput>
         <LeadAgencyQuickCreateButton/>
 
-        <ReferenceInput allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
           <SelectInput optionText="name"/>
         </ReferenceInput>
 
-        <ReferenceInput allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
           <SelectInput optionText="action"/>
         </ReferenceInput>
 
@@ -243,18 +243,18 @@ export const ActionTrackList = (props) => (
         <NumberField label="ID" source="id" />
         <BooleanField label="Public" source="public" />
         <TextField label="Title" source="title" />
-        <ReferenceArrayField sortable={false} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
+        <ReferenceArrayField sortable={false} emptyValue={null} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
           <SingleFieldList>
             <ChipField source="type"/>
           </SingleFieldList>
         </ReferenceArrayField>
-        <ReferenceField sortable={false} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+        <ReferenceField sortable={false} emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
           <TextField source="action"/>
         </ReferenceField>
-        <ReferenceField sortable={false} allowEmpty={true}  source="completion_timeframe_id" reference="completion-timeframes">
+        <ReferenceField sortable={false} emptyValue={null} allowEmpty={true}  source="completion_timeframe_id" reference="completion-timeframes">
           <TextField source="timeframe"/>
         </ReferenceField>
-        <ReferenceField sortable={false} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+        <ReferenceField sortable={false} emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
             <TextField source="name"/>
         </ReferenceField>
       <ReferenceArrayField sortable={false} label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
@@ -262,10 +262,10 @@ export const ActionTrackList = (props) => (
           <ChipField source="name" />
         </SingleFieldList>
       </ReferenceArrayField>
-        <ReferenceField sortable={false} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <ReferenceField sortable={false} emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
           <TextField source="name"/>
         </ReferenceField>
-        <ReferenceArrayField sortable={false} allowEmpty={true} label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+        <ReferenceArrayField sortable={false} emptyValue={null} allowEmpty={true} label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
           <SingleFieldList>
             <ChipField source="name"/>
           </SingleFieldList>
@@ -301,7 +301,7 @@ export const ActionTrackShow = (props) => (
       <TextField label="Title" source='title'/>
       <TextField label="Description" source='description' />
 
-      <ReferenceField allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
         <TextField source="timeframe"/>
       </ReferenceField>
 
@@ -317,29 +317,29 @@ export const ActionTrackShow = (props) => (
         </Datagrid>
       </ReferenceArrayField>
 
-      <ReferenceField allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
         <TextField source="status"/>
       </ReferenceField>
 
-      <ReferenceArrayField allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
+      <ReferenceArrayField emptyValue={null} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
         <SingleFieldList>
           <ChipField source="type"/>
         </SingleFieldList>
       </ReferenceArrayField>
 
-      <ReferenceField allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
         <TextField source="name"/>
       </ReferenceField>
 
-      <ReferenceField allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
         <TextField source="name"/>
       </ReferenceField>
 
-      <ReferenceField allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
         <TextField source="name"/>
       </ReferenceField>
 
-      <ReferenceField allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
         <TextField source="action"/>
       </ReferenceField>
       <ReferenceArrayField label='Partners' source="partner_ids" reference="partners">
