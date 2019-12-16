@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import React from 'react';
 import IconCancel from "@material-ui/icons/Cancel";
-import { Button, Edit, SimpleForm, SaveButton, Toolbar } from 'react-admin';
+import { Button, Confirm, Edit, SimpleForm, SaveButton, Toolbar } from 'react-admin';
 
 const PostCreateToolbar = props => (
     <Toolbar {...props} >
@@ -13,7 +13,11 @@ const PostCreateToolbar = props => (
             redirect="list"
             submitOnEnter={true}
         />
-        <Button label='Cancel' onClick={(e) => props.goBack()}>
+        <Button label='Cancel' onClick={(e) => {
+          if (window.confirm("Cancel and go back?")) {
+            props.goBack()
+          }
+        }}>
           <IconCancel/>
         </Button>
     </Toolbar>

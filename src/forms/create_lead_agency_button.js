@@ -75,7 +75,7 @@ class LeadAgencyQuickCreateButton extends Component {
 
     return (
       <Fragment>
-        <Button onClick={this.handleClick} label="ra.action.create">
+        <Button onClick={this.handleClick} label="Add a new filter to drop down list">
           <IconContentAdd label="Funding Source"/>
         </Button>
         <Dialog

@@ -237,8 +237,49 @@ const TracksActions = ({ resource, filters, displayedFilters, filterValues, base
         <RefreshButton />
     </CardActions>
 );
+
+const ActionTrackListActions = ({
+    bulkActions,
+    basePath,
+    currentSort,
+    displayedFilters,
+    exporter,
+    filters,
+    filterValues,
+    onUnselectItems,
+    resource,
+    selectedIds,
+    showFilter,
+    total
+}) => (
+    <CardActions>
+        {bulkActions && React.cloneElement(bulkActions, {
+            basePath,
+            filterValues,
+            resource,
+            selectedIds,
+            onUnselectItems,
+        })}
+        {filters && React.cloneElement(filters, {
+            resource,
+            showFilter,
+            displayedFilters,
+            filterValues,
+            context: 'button',
+        }) }
+        <CreateButton basePath={basePath} label="Create new action"/>
+        <ExportButton
+            disabled={total === 0}
+            resource={resource}
+            sort={currentSort}
+            filter={filterValues}
+            exporter={exporter}
+        />
+    </CardActions>
+);
+
 export const ActionTrackList = (props) => (
-    <List {...props} exporter={action_track_exporter}  filters={<TrackFilter/>}>
+    <List {...props} exporter={action_track_exporter}  actions={<ActionTrackListActions />} filters={<TrackFilter/>}>
       <Datagrid rowClick={(id, bp, rec) => 'show'}>
         <NumberField label="ID" source="id" />
         <BooleanField label="Public" source="public" />
