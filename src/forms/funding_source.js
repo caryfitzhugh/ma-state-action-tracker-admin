@@ -5,8 +5,8 @@ export const FundingSourceCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput label='Funding Source Name' source="name" />
-            <TextInput label="URL Address" type='url' source='href'/>
-            <LongTextInput label="Tooltip Description" source="description" />
+            <TextInput label="URL" type='url' source='href'/>
+            <LongTextInput label="Tooltip Content" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -15,8 +15,8 @@ export const FundingSourceEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput label="Funding Source Name" source='name'/>
-            <TextInput label="URL Address" source='href'/>
-            <LongTextInput label="Tooltip Description" source="description" />
+            <TextInput label="URL" source='href'/>
+            <LongTextInput label="Tooltip Content" source="description" />
         </SimpleForm>
     </Edit>
 );
@@ -25,7 +25,7 @@ export const FundingSourceList = (props) => (
     <List {...props}>
         <Datagrid rowClick={(id, bp, rec) => 'show'}>
             <TextField label="Funding Source Name" source="name" />
-            <TextField label="URL Address" source="href" />
+            <TextField label="URL" source="href" />
         </Datagrid>
     </List>
 );

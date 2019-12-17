@@ -5,8 +5,8 @@ export const LeadAgencyCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput label='Lead Agency Name' source="name" />
-            <TextInput label="URL Address" type='url' source='href'/>
-            <LongTextInput label="Tooltip Description" source="description" />
+            <TextInput label="URL" type='url' source='href'/>
+            <LongTextInput label="Tooltip Content" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -16,8 +16,8 @@ export const LeadAgencyEdit = (props) => (
         <SimpleForm>
             <DisabledInput label="Id" source="id" />
             <TextInput label="Lead Agency Name" source='name'/>
-            <TextInput label="URL Address" source='href'/>
-            <LongTextInput label="Tooltip Description" source="description" />
+            <TextInput label="URL" source='href'/>
+            <LongTextInput label="Tooltip Content" source="description" />
         </SimpleForm>
     </Edit>
 );
@@ -26,7 +26,7 @@ export const LeadAgencyList = (props) => (
     <List {...props}>
         <Datagrid rowClick={(id, bp, rec) => 'show'}>
             <TextField label="Lead Agency Name" source="name" />
-            <TextField label="URL Address" source="href" />
+            <TextField label="URL" source="href" />
         </Datagrid>
     </List>
 );

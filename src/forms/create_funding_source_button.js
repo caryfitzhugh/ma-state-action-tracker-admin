@@ -96,8 +96,8 @@ class FundingSourceQuickCreateButton extends Component {
               toolbar={null}
             >
               <TextInput source="name" validate={required()} />
-              <TextInput source="href" validate={required()} />
-              <LongTextInput source="description" />
+              <TextInput source="href" label="URL" validate={required()} />
+              <LongTextInput source="description" label="Tooltip Content"/>
             </SimpleForm>
           </DialogContent>
           <DialogActions>

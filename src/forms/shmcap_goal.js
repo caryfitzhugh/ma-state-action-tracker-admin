@@ -5,7 +5,7 @@ export const ShmcapGoalCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput label='SHMCAP Goal' source="name" />
-            <LongTextInput label="Tooltip Description" source="description" />
+            <LongTextInput label="Tooltip Content" source="description" />
         </SimpleForm>
     </Create>
 );
@@ -14,7 +14,7 @@ export const ShmcapGoalEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput label="SHMCAP Goal" source='name'/>
-            <LongTextInput label="Tooltip Description" source="description" />
+            <LongTextInput label="Tooltip Content" source="description" />
         </SimpleForm>
     </Edit>
 );
