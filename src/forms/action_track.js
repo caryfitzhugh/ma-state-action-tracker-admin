@@ -27,20 +27,28 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
       <SelectInput optionText="status"/>
     </ReferenceInput>
 
-    <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
+    <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types"
+      perPage={5000}
+      sort={{ field: 'type', order: 'ASC' }}>
       <SelectArrayInput optionText="type" />
     </ReferenceArrayInput>
 
-    <ReferenceInput emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices"
+      perPage={5000}
+      sort={{ field: 'name', order: 'ASC' }}>
       <SelectInput optionText="name"/>
     </ReferenceInput>
 
-    <ReferenceInput emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies"
+      perPage={5000}
+      sort={{ field: 'name', order: 'ASC' }}>
       <SelectInput optionText="name"/>
     </ReferenceInput>
     <LeadAgencyQuickCreateButton/>
 
-    <ReferenceInput emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+    <ReferenceInput emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities"
+      perPage={5000}
+      sort={{ field: 'name', order: 'ASC' }}>
       <SelectInput optionText="name"/>
     </ReferenceInput>
 
@@ -48,12 +56,16 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
       <SelectInput optionText="action"/>
     </ReferenceInput>
 
-    <ReferenceArrayInput label='Possible Partners' source="partner_ids" reference="partners">
+    <ReferenceArrayInput label='Possible Partners' source="partner_ids" reference="partners"
+      perPage={5000}
+      sort={{ field: 'name', order: 'ASC' }}>
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
     <PartnerQuickCreateButton />
 
-    <ReferenceArrayInput label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
+    <ReferenceArrayInput label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources"
+      perPage={5000}
+      sort={{ field: 'name', order: 'ASC' }}>
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
     <FundingSourceQuickCreateButton />
@@ -62,7 +74,9 @@ export const ActionTrackCreate = ({permissions, ...props}) => (
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
 
-    <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
+    <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions"
+      perPage={5000}
+      sort={{ field: 'name', order: 'ASC' }}>
       <SelectArrayInput optionText="name" />
     </ReferenceArrayInput>
   </SimpleForm>
@@ -81,38 +95,54 @@ export const ActionTrackEdit = (props) => (
           <SelectInput optionText="timeframe"/>
         </ReferenceInput>
 
-        <ReferenceInput emptyValue={null} allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses"
+          perPage={5000}
+          sort={{ field: 'status', order: 'ASC' }}>
           <SelectInput optionText="status"/>
         </ReferenceInput>
 
-        <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
+        <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types"
+          perPage={5000}
+          sort={{ field: 'type', order: 'ASC' }}>
           <SelectArrayInput optionText="type" />
         </ReferenceArrayInput>
 
 
-        <ReferenceInput emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices"
+          perPage={5000}
+          sort={{ field: 'name', order: 'ASC' }}>
           <SelectInput optionText="name"/>
         </ReferenceInput>
 
-        <ReferenceInput emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies"
+          perPage={5000}
+          sort={{ field: 'name', order: 'ASC' }}>
           <SelectInput optionText="name"/>
         </ReferenceInput>
         <LeadAgencyQuickCreateButton/>
 
-        <ReferenceInput emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities"
+          perPage={5000}
+          sort={{ field: 'name', order: 'ASC' }}>
           <SelectInput optionText="name"/>
         </ReferenceInput>
 
-        <ReferenceInput emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+        <ReferenceInput emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions"
+          perPage={5000}
+          sort={{ field: 'action', order: 'ASC' }}>
           <SelectInput optionText="action"/>
         </ReferenceInput>
 
-        <ReferenceArrayInput label='Partners' source="partner_ids" reference="partners">
+        <ReferenceArrayInput label='Partners' source="partner_ids" reference="partners"
+          perPage={5000}
+          sort={{ field: 'name', order: 'ASC' }}>
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
         <PartnerQuickCreateButton />
 
-        <ReferenceArrayInput label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
+        <ReferenceArrayInput label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources"
+          perPage={5000}
+          sort={{ field: 'name', order: 'ASC' }}>
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
         <FundingSourceQuickCreateButton />
@@ -121,7 +151,9 @@ export const ActionTrackEdit = (props) => (
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
 
-        <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
+        <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions"
+          perPage={5000}
+          sort={{ field: 'name', order: 'ASC' }}>
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
       </SimpleForm>
