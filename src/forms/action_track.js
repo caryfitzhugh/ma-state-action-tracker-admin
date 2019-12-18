@@ -136,30 +136,37 @@ const TrackFilter = withStyles(track_filter_styles)(({classes, ...props}) => (
     <Filter {...props} classes={classes}>
       <TextInput label="Search Records" source="query" alwaysOn />
       <BooleanInput label="Public" source='public' />
-
-      <ReferenceArrayInput label="Action Status"   source="action_status_id" reference="action-statuses">
-        <SelectArrayInput optionText="status"/>
+      <ReferenceInput label="Global Action" source="global_action_id" reference="global-actions">
+        <SelectInput optionText="action"/>
+      </ReferenceInput>
+      <ReferenceArrayInput label="Completion Timeframes" source="completion_timeframe_id" reference="completion-timeframes">
+        <SelectArrayInput optionText="timeframe"/>
       </ReferenceArrayInput>
       <ReferenceArrayInput label='Action Types' source="action_type_ids" reference="action-types">
         <SelectArrayInput optionText="type" />
       </ReferenceArrayInput>
+      <ReferenceArrayInput label="Action Status"   source="action_status_id" reference="action-statuses">
+        <SelectArrayInput optionText="status"/>
+      </ReferenceArrayInput>
       <ReferenceArrayInput label="Exec Office"   source="exec_office_id" reference="exec-offices">
         <SelectArrayInput optionText="name"/>
+      </ReferenceArrayInput>
+      <ReferenceArrayInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <SelectArrayInput optionText="name"/>
+      </ReferenceArrayInput>
+      <ReferenceArrayInput label="Partner"   source="partner_ids" reference="partners">
+        <SelectArrayInput optionText="name"/>
+      </ReferenceArrayInput>
+      <ReferenceInput label='Agency Priority Score' source="agency_priority_id" reference="funding-sources">
+        <SelectInput optionText="name" />
+      </ReferenceInput>
+      <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+        <SelectArrayInput optionText="name" />
       </ReferenceArrayInput>
       <ReferenceArrayInput label='Possible Funding Source' source="funding_source_ids" reference="funding-sources">
         <SelectArrayInput optionText="name" />
       </ReferenceArrayInput>
-
-      <ReferenceArrayInput label="Completion Timeframes" source="completion_timeframe_id" reference="completion-timeframes">
-        <SelectArrayInput optionText="timeframe"/>
-      </ReferenceArrayInput>
-      <ReferenceInput label="Global Action" source="global_action_id" reference="global-actions">
-        <SelectInput optionText="action"/>
-      </ReferenceInput>
-      <ReferenceArrayInput label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
-        <SelectArrayInput optionText="name"/>
-      </ReferenceArrayInput>
-      <ReferenceArrayInput label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+      <ReferenceArrayInput label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
         <SelectArrayInput optionText="name" />
       </ReferenceArrayInput>
     </Filter>
@@ -341,68 +348,55 @@ export const ActionTrackShow = (props) => (
       <BooleanField label="Public" source="public" />
       <TextField label="Title" source='title'/>
       <TextField label="Description" source='description' />
-
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
+        <TextField source="action"/>
+      </ReferenceField>
       <ReferenceField emptyValue={null} allowEmpty={true} label="Completion Timeframe"   source="completion_timeframe_id" reference="completion-timeframes">
         <TextField source="timeframe"/>
       </ReferenceField>
-
+      <ReferenceArrayField emptyValue={null} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
+        <SingleFieldList>
+          <ChipField source="type"/>
+        </SingleFieldList>
+      </ReferenceArrayField>
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
+        <TextField source="status"/>
+      </ReferenceField>
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
+        <TextField source="name"/>
+      </ReferenceField>
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
+        <TextField source="name"/>
+      </ReferenceField>
+      <ReferenceArrayField label='Partners' source="partner_ids" reference="partners">
+        <TextField label="name" />
+      </ReferenceArrayField>
+      <ReferenceField emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
+        <TextField source="name"/>
+      </ReferenceField>
+      <ReferenceArrayField label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
+        <SingleFieldList>
+          <ChipField source="name" />
+        </SingleFieldList>
+      </ReferenceArrayField>
+      <ReferenceArrayField label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
+        <SingleFieldList>
+          <ChipField source="name" />
+        </SingleFieldList>
+      </ReferenceArrayField>
+      <ReferenceArrayField label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
+        <SingleFieldList>
+          <ChipField source="name" />
+        </SingleFieldList>
+      </ReferenceArrayField>
       <hr/>
-
       <AddNewProgressNoteButton record={props.data} />
-
       <ReferenceArrayField label='Progress Notes' source="progress_note_ids" reference="progress-notes">
         <Datagrid>
           <TextField source="note" />
           <DateField source="created_on"/>
           <DeleteButton undoable={false} resource="progress-notes" basePath="/progress-notes" redirect={false} />
         </Datagrid>
-      </ReferenceArrayField>
-
-      <ReferenceField emptyValue={null} allowEmpty={true} label="Action Status"   source="action_status_id" reference="action-statuses">
-        <TextField source="status"/>
-      </ReferenceField>
-
-      <ReferenceArrayField emptyValue={null} allowEmpty={true} label="Action Types"   source="action_type_ids" reference="action-types">
-        <SingleFieldList>
-          <ChipField source="type"/>
-        </SingleFieldList>
-      </ReferenceArrayField>
-
-      <ReferenceField emptyValue={null} allowEmpty={true} label="Exec Office"   source="exec_office_id" reference="exec-offices">
-        <TextField source="name"/>
-      </ReferenceField>
-
-      <ReferenceField emptyValue={null} allowEmpty={true} label="Lead Agency"   source="lead_agency_id" reference="lead-agencies">
-        <TextField source="name"/>
-      </ReferenceField>
-
-      <ReferenceField emptyValue={null} allowEmpty={true} label="Agency Priority" source="agency_priority_id" reference="agency-priorities">
-        <TextField source="name"/>
-      </ReferenceField>
-
-      <ReferenceField emptyValue={null} allowEmpty={true} label="Global Action" source="global_action_id" reference="global-actions">
-        <TextField source="action"/>
-      </ReferenceField>
-      <ReferenceArrayField label='Partners' source="partner_ids" reference="partners">
-        <TextField label="name" />
-      </ReferenceArrayField>
-
-      <ReferenceArrayField label='Possible Funding Sources' source="funding_source_ids" reference="funding-sources">
-        <SingleFieldList>
-          <ChipField source="name" />
-        </SingleFieldList>
-      </ReferenceArrayField>
-
-      <ReferenceArrayField label='SHMCAP Goals' source="shmcap_goal_ids" reference="shmcap-goals">
-        <SingleFieldList>
-          <ChipField source="name" />
-        </SingleFieldList>
-      </ReferenceArrayField>
-
-      <ReferenceArrayField label='Primary Climate Interactions' source="primary_climate_interaction_ids" reference="primary-climate-interactions">
-        <SingleFieldList>
-          <ChipField source="name" />
-        </SingleFieldList>
       </ReferenceArrayField>
     </SimpleShowLayout>
   </Show>
