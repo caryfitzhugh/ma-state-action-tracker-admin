@@ -96,7 +96,7 @@ class LeadAgencyQuickCreateButton extends Component {
               toolbar={null}
             >
               <TextInput source="name" validate={required()} />
-              <TextInput source="href" label="URL" validate={required()} />
+              <TextInput source="href" label="URL" />
               <LongTextInput source="description" label="Tooltip Content" />
             </SimpleForm>
           </DialogContent>
